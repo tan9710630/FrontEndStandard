@@ -425,6 +425,28 @@ props: {
 </ul>
 ```
 
+**9、Data的属性如果是对象其下级属性必须声明定义并且赋予默认值。**[参考资料](https://cn.vuejs.org/v2/guide/reactivity.html)
+
+禁止直接给一个对象，一方面代码维护更加繁琐，同时**data**之中声明的属性当组件数据量过大或者层级过深时是非响应式的，只能通过$set进行更新
+
+```javascript
+// 对于this.dataProps.subProps来说
+// 错误的示范 
+data () {
+    return {
+        dataProps: {}
+    }
+}
+// 正确的写法
+data () {
+    return {
+        dataProps: {
+            subProps: 1 // 对象所有下级属性必须声明与默认值
+        }
+    }
+}
+```
+
 ## 4.3 style
 
 > 样式部分，全部统一使用Sass，禁止直接编写原生CSS或者使用其他预处理语法，这里主要是为了统一。
