@@ -316,6 +316,26 @@ computed: {
 }
 ```
 
+**6、静态资源的引用，必须考虑非根目录情况**
+
+这里有两种方案，推荐使用`webpack`处理静态资源，将资源文件放在`assets`文件夹下，通过`assets`进行管理：
+
+```html
+<!--使用assets文件夹下资源-->
+<img src="~@/assets/img/xxx.png" />
+```
+
+如果特殊情况下不能使用`webpack`处理静态资源（可能1%都不到）需要将静态资源放在`public`文件夹下，必须这样操作：
+
+```html
+<!--使用public文件夹下资源，不经过webpack编译-->
+<!--这种情况需要在vue.config.js中配置publicPath为相对路径：'./'或者特定路径：/web/-->
+<!--注意：这里路径是相对路径，且不能使用./img/xxx.png，如果使用./webpack会尝试寻找对应的module-->
+<img src="img/xxx.png" />
+```
+
+这样一来好处在于web服务的请求路径是非根目录如：http://domain/web/，基本是这样也不会有资源报404，极大方便了项目部署与迁移。
+
 ## 4.2 script
 
 > 在 script 标签中，你应该遵守 ES6 的规范
@@ -509,6 +529,30 @@ body {
     width: 100px;
 }
 ```
+
+**7、静态资源引用**
+
+这里与模板里面的`template`相同，这里再写一次：
+
+这里有两种方案，推荐使用`webpack`处理静态资源，将资源文件放在`assets`文件夹下，通过`assets`进行管理：
+
+```scss
+// 使用assets文件夹下资源
+background: "~@/assets/img/xxx.png"
+background: url("~@/assets/img/xxx.png")
+```
+
+如果特殊情况下不能使用`webpack`处理静态资源（可能1%都不到）需要将静态资源放在`public`文件夹下，必须这样操作：
+
+```scss
+// 使用public文件夹下资源，不经过webpack编译
+// 这种情况需要在vue.config.js中配置publicPath为相对路径：'./'或者特定路径：/web/
+// 注意：这里路径是相对路径，且不能使用./img/xxx.png，如果使用"./"的话，webpack会尝试寻找对应的module
+background: "img/xxx.png"
+background: url("img/xxx.png")
+```
+
+这样一来好处在于web服务的请求路径是非根目录如：http://domain/web/，基本是这样也不会有资源报404，极大方便了项目部署与迁移。
 
 # 5 注释规范
 
